@@ -7,38 +7,31 @@ using COMP2007_S2016_Lesson10C.Models;
 
 namespace COMP2007_S2016_Lesson10C.Controllers
 {
-    [Authorize]
     public class StoreController : Controller
     {
+        MusicStoreContext storeDB = new MusicStoreContext();
         //
         // GET: /Store/
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            List<Genre> genres = new List<Genre>
-            {
-                 new Genre("Disco"),
-                 new Genre("Jazz"),
-                 new Genre("Rock")
-            };
+            List<Genre> genres = storeDB.Genres.ToList();
 
             return View(genres);
         }
         //
         // GET: /Store/Browse?genre=Disco
-        [AllowAnonymous]
-        public ActionResult Browse(string genre)
+        public ActionResult Browse(string genre="Rock")
         {
-            Genre genreModel = new Genre(genre);
+            // Retrieve Genre and its Associated Albums from database
+            Genre genreModel = storeDB.Genres.Include("Albums").Single(g => g.Name == genre);
 
             return View(genreModel);
         }
         //
         // GET: /Store/Details/5
-        [AllowAnonymous]
         public ActionResult Details(int id = 1)
         {
-            Album album = new Album("Album " + id);
+            Album album = storeDB.Albums.Find(id);
 
             return View(album);
         }

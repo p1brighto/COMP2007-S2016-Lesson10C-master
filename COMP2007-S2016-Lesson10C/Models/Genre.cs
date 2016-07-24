@@ -24,7 +24,9 @@ namespace COMP2007_S2016_Lesson10C.Models
             this.Name = Name;
         }
 
-        public int GenreID { get; set; }
-        public string Name { get; set; }
+        public virtual int GenreId { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Description { get; set; }
+        public virtual List<Album> Albums { get; set; }
     }
 }
